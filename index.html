@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>KEY - La llave para la vida universitaria</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; }
+        header { background: #fff; padding: 20px; text-align: center; }
+        .logo { width: 120px; margin-bottom: 10px; }
+        h1 { color: #e573a7; }
+        .container { max-width: 600px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px #eee; }
+        .section { margin-bottom: 30px; }
+        input, textarea, select { width: 100%; padding: 8px; margin: 8px 0; border-radius: 5px; border: 1px solid #ccc; }
+        button { background: #e573a7; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+        .comment { background: #f1f1f1; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
+        .actions { float: right; }
+        .like, .report { margin-left: 10px; cursor: pointer; color: #e573a7; }
+        footer { text-align: center; padding: 20px; background: #eee; }
+    </style>
+</head>
+<body>
+    <header>
+    <img src="logo_key.png.png" alt="Logo KEY" class="logo" style="width:250px;">
+    <h1>La llave que abre las puertas de la vida universitaria</h1>
+</header>
+    <div class="container">
+        <!-- Registro -->
+        <div class="section">
+            <h2>Registro</h2>
+            <form id="registerForm">
+                <input type="text" placeholder="Nombre" required>
+                <input type="text" placeholder="Grado universitario" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+        <!-- Buscador y comentarios -->
+        <div class="section">
+            <h2>Buscar asignatura</h2>
+            <input type="text" id="searchSubject" placeholder="Ejemplo: Derecho Civil">
+            <div id="commentsSection">
+                <h3>Opiniones</h3>
+                <!-- Comentarios simulados -->
+            </div>
+            <form id="commentForm">
+                <select>
+                    <option>La asistencia es obligatoria</option>
+                    <option>El examen es tipo test</option>
+                    <option>El examen se ajusta al contenido explicado en clase</option>
+                    <option>Hay parciales eliminatorios</option>
+                </select>
+                <input type="text" maxlength="3" placeholder="Iniciales del profesor">
+                <textarea placeholder="Comentario adicional (máx. 200 caracteres)" maxlength="200"></textarea>
+                <button type="submit">Publicar opinión</button>
+            </form>
+        </div>
+        <!-- Sugerencias -->
+        <div class="section">
+            <h2>Sugerencias</h2>
+            <form id="suggestionForm">
+                <textarea placeholder="¿Cómo podemos mejorar KEY?" maxlength="300"></textarea>
+                <button type="submit">Enviar sugerencia</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        &copy; 2025 KEY | Contacto: info@keyuniversidad.com
+    </footer>
+    <script>
+        // Simulación de comentarios
+        const commentsSection = document.getElementById('commentsSection');
+        const commentForm = document.getElementById('commentForm');
+        let comments = [
+            { text: "La asistencia es obligatoria", likes: 2, reported: false },
+            { text: "El examen es tipo test", likes: 1, reported: false }
+        ];
+        function renderComments() {
+            commentsSection.innerHTML = '<h3>Opiniones</h3>';
+            comments.forEach((c, i) => {
+                commentsSection.innerHTML += `
+                    <div class="comment">
+                        ${c.text}
+                        <span class="actions">
+                            <span class="like" onclick="likeComment(${i})">👍 ${c.likes}</span>
+                            <span class="report" onclick="reportComment(${i})">🚩 Reportar</span>
+                        </span>
+                    </div>
+                `;
+            });
+        }
+        renderComments();
+        window.likeComment = function(i) {
+            comments[i].likes++;
+            renderComments();
+        }
+        window.reportComment = function(i) {
+            comments[i].reported = true;
+            alert('Comentario reportado. Será revisado.');
+        }
+        commentForm.onsubmit = function(e) {
+            e.preventDefault();
+            const select = commentForm.querySelector('select').value;
+            const initials = commentForm.querySelector('input[type=text]').value;
+            const extra = commentForm.querySelector('textarea').value;
+            let text = select + (initials ? ` (Prof: ${initials})` : '') + (extra ? ` - ${extra}` : '');
+            comments.push({ text, likes: 0, reported: false });
+            renderComments();
+            commentForm.reset();
+        }
+    </script>
+</body>
+</html>
